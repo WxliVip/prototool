@@ -50,6 +50,7 @@ var (
 			flags.bindJSON(flagSet)
 			flags.bindFix(flagSet)
 			flags.bindProtocURL(flagSet)
+			flags.bindNoCache(flagSet)
 		},
 	}
 
@@ -83,6 +84,7 @@ var (
 			flags.bindDryRun(flagSet)
 			flags.bindJSON(flagSet)
 			flags.bindProtocURL(flagSet)
+			flags.bindNoCache(flagSet)
 		},
 	}
 
@@ -206,6 +208,7 @@ If Vim integration is set up, files will be generated when you open a new Protob
 			flags.bindOverwrite(flagSet)
 			flags.bindFix(flagSet)
 			flags.bindProtocURL(flagSet)
+			flags.bindNoCache(flagSet)
 		},
 	}
 
@@ -220,6 +223,7 @@ If Vim integration is set up, files will be generated when you open a new Protob
 			flags.bindDryRun(flagSet)
 			flags.bindJSON(flagSet)
 			flags.bindProtocURL(flagSet)
+			flags.bindNoCache(flagSet)
 		},
 	}
 
@@ -308,6 +312,7 @@ $ cat input.json | prototool grpc example \
 			flags.bindMethod(flagSet)
 			flags.bindStdin(flagSet)
 			flags.bindProtocURL(flagSet)
+			flags.bindNoCache(flagSet)
 		},
 	}
 
@@ -346,6 +351,7 @@ $ cat input.json | prototool grpc example \
 			flags.bindListAllLinters(flagSet)
 			flags.bindListLinters(flagSet)
 			flags.bindProtocURL(flagSet)
+			flags.bindNoCache(flagSet)
 		},
 	}
 
@@ -472,6 +478,12 @@ func getRunner(stdin io.Reader, stdout io.Writer, stderr io.Writer, flags *flags
 		runnerOptions = append(
 			runnerOptions,
 			exec.RunnerWithJSON(),
+		)
+	}
+	if flags.noCache {
+		runnerOptions = append(
+			runnerOptions,
+			exec.RunnerWithNoCache(),
 		)
 	}
 	if flags.printFields != "" {
